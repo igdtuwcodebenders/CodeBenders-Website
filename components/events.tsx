@@ -46,28 +46,31 @@ export function Events() {
   ]
 
   const allEvents = [...recentEvents, ...pastEvents]
-  const filteredEvents = activeFilter === "All" ? allEvents : allEvents.filter((event) => event.type === activeFilter)
+  const filteredEvents =
+    activeFilter === "All" ? allEvents : allEvents.filter((event) => event.type === activeFilter)
 
   return (
     <section id="events" className="py-20 bg-card">
       <div className="max-w-6xl mx-auto px-4">
+
+        {/* ---- 🔥 Open Source Section ---- */}
         <div className="mb-20">
           <div className="text-center mb-12">
             <h2
               className="text-4xl font-bold text-foreground mb-4 neon-glow"
               style={{ fontFamily: "var(--font-orbitron)" }}
             >
-              Upcoming Events
+              Open Source Contributions
             </h2>
           </div>
 
           <div className="max-w-6xl mx-auto bg-background rounded-lg p-8 neon-border">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Image placeholder on left */}
+              {/* Image on left */}
               <div className="aspect-[4/3] max-w-md mx-auto rounded-lg overflow-hidden">
                 <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-08-20%20at%2018.45.59_69b40ba3.jpg-H0WV9UCUEs1szp72ZlbsEs6EvC2VOS.jpeg"
-                  alt="Orientation Coming Soon - Stay Tuned for Updates"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/codebenders-open-source.jpg"
+                  alt="Open Source Contributions"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -75,36 +78,32 @@ export function Events() {
               {/* Content on right */}
               <div className="space-y-6">
                 <blockquote className="text-xl italic text-muted border-l-4 border-primary pl-6 neon-border-left">
-                  "We are each other's harvest; we are each other's business; we are each other's magnitude and bond."
+                  "Empowering innovation through collaboration — one pull request at a time."
                 </blockquote>
 
                 <div className="space-y-4 text-lg text-muted leading-relaxed">
                   <p>
-                    {
-                      "Get ready to kickstart an incredible coding adventure! Our upcoming orientation is your gateway to the world of Codebenders—a vibrant space where your curiosity sets the agenda."
-                    }
+                    CodeBenders proudly fosters a strong open-source culture. We believe in learning by building together — solving real-world problems and contributing to impactful projects.
                   </p>
-
                   <p>
-                    {
-                      "Whether you’re a beginner or a seasoned coder, there’s something here for everyone. Don’t miss the chance to ignite your tech passion and become a part of a community that codes, creates, and grows together. Join us, and let’s bend the limits of what’s possible!"
-                    }
+                    Whether you're just starting your journey or already contributing to global repositories, our open-source initiatives give you the platform to grow, collaborate, and make a difference.
                   </p>
-
-                  <p>It's your time to flaunt your skills in Codebenders and grow with us.</p>
                 </div>
 
                 <a
-                  href="#"
+                  href="https://github.com/igdtuwcodebenders/CodeBenders"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-block bg-primary text-background px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/80 transition-all duration-200 neon-glow hover:shadow-primary/50 transform hover:-translate-y-1"
                 >
-                  {"Apply Now"}
+                  Visit Our GitHub →
                 </a>
               </div>
             </div>
           </div>
         </div>
 
+        {/* ---- Events Section ---- */}
         <div className="text-center mb-12">
           <h2
             className="text-4xl font-bold text-foreground mb-4 neon-glow"
@@ -112,7 +111,9 @@ export function Events() {
           >
             Events
           </h2>
-          <p className="text-lg text-muted">All the Recent and past events' details can be found here!</p>
+          <p className="text-lg text-muted">
+            Explore all our recent and past events here!
+          </p>
         </div>
 
         {/* Filter Tabs */}
@@ -135,6 +136,7 @@ export function Events() {
           </div>
         </div>
 
+        {/* Event Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredEvents.map((event, index) => (
             <div
