@@ -1,12 +1,75 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+
+type TimeLeft = {
+  days: number
+  hours: number
+  minutes: number
+  seconds: number
+}
 
 export function Events() {
   const [activeFilter, setActiveFilter] = useState("All")
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  const [isClient, setIsClient] = useState(false)
+  const targetDate = '2025-10-23T00:00:00+05:30'
 
+  // --- COUNTDOWN LOGIC ---
+  const calculateTimeLeft = (): TimeLeft => {
+    const difference = +new Date(targetDate) - +new Date()
+    if (difference > 0) {
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      }
+    }
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+  }
+
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft())
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(
+    +new Date(targetDate) > +new Date()
+  )
+
+  useEffect(() => {
+    setIsClient(true)
+
+    if (!isRegistrationOpen) return
+
+    const timer = setInterval(() => {
+      const newTimeLeft = calculateTimeLeft()
+      setTimeLeft(newTimeLeft)
+
+      if (
+        newTimeLeft.days === 0 &&
+        newTimeLeft.hours === 0 &&
+        newTimeLeft.minutes === 0 &&
+        newTimeLeft.seconds === 0
+      ) {
+        setIsRegistrationOpen(false)
+        clearInterval(timer)
+      }
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [isRegistrationOpen])
+
+  const timerComponents = (Object.keys(timeLeft) as (keyof TimeLeft)[]).map(
+    (interval) => (
+      <div key={interval} className="mx-3 p-2">
+        <span className="text-4xl font-extrabold block text-primary neon-glow-text">
+          {timeLeft[interval].toString().padStart(2, "0")}
+        </span>
+        <span className="text-sm uppercase text-muted font-medium">{interval}</span>
+      </div>
+    )
+  )
+
+  // --- FILTERS AND EVENTS ---
   const filters = ["All", "Recent", "Past"]
 
   const recentEvents = [
@@ -47,63 +110,88 @@ export function Events() {
 
   const allEvents = [...recentEvents, ...pastEvents]
   const filteredEvents =
-    activeFilter === "All" ? allEvents : allEvents.filter((event) => event.type === activeFilter)
+    activeFilter === "All"
+      ? allEvents
+      : allEvents.filter((event) => event.type === activeFilter)
 
   return (
     <section id="events" className="py-20 bg-card">
       <div className="max-w-6xl mx-auto px-4">
 
-        {/* ---- 🔥 Open Source Section ---- */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h2
-              className="text-4xl font-bold text-foreground mb-4 neon-glow"
+        {/* ---- Commit and Conquer Section ---- */}
+        <div className="mb-20 text-center">
+          <h2
+            className="text-5xl font-bold text-foreground mb-8 neon-glow"
+            style={{ fontFamily: "var(--font-orbitron)" }}
+          >
+            Events
+          </h2>
+
+          <div className="max-w-4xl mx-auto bg-background rounded-lg p-10 neon-border">
+            <h3
+              className="text-3xl font-bold text-primary mb-4"
               style={{ fontFamily: "var(--font-orbitron)" }}
             >
-              Open Source Contributions
-            </h2>
-          </div>
+              Commit and Conquer
+            </h3>
+            <p className="text-lg text-muted font-medium tracking-wide mb-8">
+              An Open Source Fest by <span className="text-primary font-semibold">CodeBenders</span>
+            </p>
 
-          <div className="max-w-6xl mx-auto bg-background rounded-lg p-8 neon-border">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Image on left */}
-              <div className="aspect-[4/3] max-w-md mx-auto rounded-lg overflow-hidden">
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/codebenders-open-source.jpg"
-                  alt="Open Source Contributions"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            <div className="space-y-6 text-lg text-muted leading-relaxed">
+              <p>
+                <strong>Commit and Conquer</strong> is CodeBenders’ flagship open-source festival — a
+                celebration of collaboration, creativity, and community. It unites passionate developers,
+                designers, and innovators to build impactful solutions for real-world problems.
+              </p>
 
-              {/* Content on right */}
-              <div className="space-y-6">
-                <blockquote className="text-xl italic text-muted border-l-4 border-primary pl-6 neon-border-left">
-                  "Empowering innovation through collaboration — one pull request at a time."
-                </blockquote>
+              <p>
+                This event isn’t just about coding — it’s about connecting, learning, and creating together.
+                Through open-source contributions, participants embrace transparency, teamwork, and shared
+                growth while transforming bold ideas into tangible results.
+              </p>
 
-                <div className="space-y-4 text-lg text-muted leading-relaxed">
-                  <p>
-                    CodeBenders proudly fosters a strong open-source culture. We believe in learning by building together — solving real-world problems and contributing to impactful projects.
-                  </p>
-                  <p>
-                    Whether you're just starting your journey or already contributing to global repositories, our open-source initiatives give you the platform to grow, collaborate, and make a difference.
-                  </p>
-                </div>
+              <p>
+                Join the movement, make your mark, and help shape the future of technology — one commit at a
+                time.
+              </p>
+            </div>
 
-                <a
-                  href="https://github.com/igdtuwcodebenders/CodeBenders"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block bg-primary text-background px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/80 transition-all duration-200 neon-glow hover:shadow-primary/50 transform hover:-translate-y-1"
-                >
-                  Visit Our GitHub →
-                </a>
+            {/* Countdown */}
+            <div className="mt-8 mb-6 p-4 rounded-xl bg-primary/10 border border-primary/50">
+              <p className="text-xl font-bold text-primary mb-2 uppercase tracking-widest">
+                {isRegistrationOpen ? 'Registration Ends In' : 'Registration Closed'}
+              </p>
+
+              <div className="flex justify-center text-center text-foreground">
+                {isClient ? (
+                  isRegistrationOpen ? (
+                    timerComponents
+                  ) : (
+                    <span className="text-2xl font-bold text-red-500">
+                      The registration period has ended.
+                    </span>
+                  )
+                ) : (
+                  <span className="text-2xl font-bold text-primary/50">
+                    Loading countdown...
+                  </span>
+                )}
               </div>
             </div>
+
+            <a
+              href="https://commit-and-conquer-alpha.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-8 bg-primary text-background px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/80 transition-all duration-200 neon-glow hover:shadow-primary/50 transform hover:-translate-y-1"
+            >
+              View Website →
+            </a>
           </div>
         </div>
 
-        {/* ---- Events Section ---- */}
+        {/* ---- General Events Section ---- */}
         <div className="text-center mb-12">
           <h2
             className="text-4xl font-bold text-foreground mb-4 neon-glow"
@@ -116,7 +204,7 @@ export function Events() {
           </p>
         </div>
 
-        {/* Filter Tabs */}
+        {/* Filters */}
         <div className="flex justify-center mb-12">
           <div className="flex bg-background rounded-lg p-1 neon-border">
             {filters.map((filter) => (
