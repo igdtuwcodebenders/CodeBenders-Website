@@ -14,7 +14,7 @@ export function Events() {
   const [activeFilter, setActiveFilter] = useState("All")
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [isClient, setIsClient] = useState(false)
-  const targetDate = '2025-10-23T00:00:00+05:30'
+  const targetDate = '"2025-10-23T19:00:00+05:30"'
 
   // --- COUNTDOWN LOGIC ---
   const calculateTimeLeft = (): TimeLeft => {
