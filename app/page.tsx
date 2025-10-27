@@ -9,11 +9,14 @@ import { Testimonials } from "@/components/testimonials"
 import { Contact } from "@/components/contact"
 import { Footer } from "@/components/footer"
 import { BackToTop } from "@/components/back-to-top"
-
+import Timer from "@/components/ui/timer";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
+      
       <Navigation />
+      
+   
       <main>
         <Hero />
         <About />
@@ -90,6 +93,14 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <div className="relative z-100 ">
+       
+      <Timer
+        targetDate="2025-11-04T19:00:00+05:30"
+        title="Contribution Period Ends In"
+        subtext="(Date: 4 Nov 2025, 7:00 PM IST)"
+      />
+      </div>
         <Events />
         <Resources />
         <Testimonials />

@@ -30,6 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${orbitron.variable} ${manrope.variable} dark`}>
+      
       <body className="cyber-grid">{children}</body>
     </html>
   )
