@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 
 interface TimerProps {
   targetDate: string; // e.g. "2025-11-04T19:00:00+05:30"
-  title?: string;     // optional heading text
-  subtext?: string;   // optional subtitle text (like date)
+  title?: string;
+  subtext?: string;
 }
 
 const Timer: React.FC<TimerProps> = ({
@@ -48,23 +48,54 @@ const Timer: React.FC<TimerProps> = ({
     timeLeft.seconds === 0;
 
   return (
-    <div className="relative text-center py-4 px-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-xl overflow-hidden">
-      <h2 className="text-xl font-bold mb-2 drop-shadow-lg animate-pulse">
+    <div className="relative w-full text-center py-10 px-6 bg-background border border-primary/30 rounded-xl shadow-[0_0_25px_rgba(0,255,255,0.1)] backdrop-blur-sm">
+      {/* Neon Glow Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 rounded-xl blur-xl -z-10"></div>
+
+      <h2
+        className="text-2xl md:text-3xl font-bold text-foreground neon-glow mb-2"
+        style={{ fontFamily: "var(--font-orbitron)" }}
+      >
         {title}
       </h2>
-      <p className="text-sm text-gray-100 mb-4">{subtext}</p>
+
+      <p className="text-sm text-muted mb-6" style={{ fontFamily: "var(--font-manrope)" }}>
+        {subtext}
+      </p>
 
       {!isEnded ? (
-        <p className="text-2xl font-extrabold tracking-widest animate-bounce">
-          {timeLeft.days}d : {timeLeft.hours}h : {timeLeft.minutes}m : {timeLeft.seconds}s
-        </p>
+        <div
+          className="flex justify-center gap-4 text-primary text-3xl md:text-4xl font-extrabold tracking-wider"
+          style={{ fontFamily: "var(--font-orbitron)" }}
+        >
+          <div className="flex flex-col items-center">
+            <span className="text-foreground">{timeLeft.days}</span>
+            <span className="text-muted text-xs mt-1">Days</span>
+          </div>
+          <span className="text-accent">:</span>
+          <div className="flex flex-col items-center">
+            <span className="text-foreground">{timeLeft.hours}</span>
+            <span className="text-muted text-xs mt-1">Hrs</span>
+          </div>
+          <span className="text-accent">:</span>
+          <div className="flex flex-col items-center">
+            <span className="text-foreground">{timeLeft.minutes}</span>
+            <span className="text-muted text-xs mt-1">Min</span>
+          </div>
+          <span className="text-accent">:</span>
+          <div className="flex flex-col items-center">
+            <span className="text-foreground">{timeLeft.seconds}</span>
+            <span className="text-muted text-xs mt-1">Sec</span>
+          </div>
+        </div>
       ) : (
-        <p className="text-3xl font-semibold text-yellow-300 animate-pulse">
+        <p
+          className="text-xl md:text-2xl font-semibold text-destructive neon-glow mt-4"
+          style={{ fontFamily: "var(--font-orbitron)" }}
+        >
           🚀 Contribution Period Ended
         </p>
       )}
-
-      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-lg -z-10"></div>
     </div>
   );
 };
